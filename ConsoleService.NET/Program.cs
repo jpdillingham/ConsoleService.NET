@@ -3,26 +3,15 @@ using System.ServiceProcess;
 
 namespace ConsoleService.NET
 {
+    /// <summary>
+    ///     The main entry point for the application.
+    /// </summary>
     internal class Program
     {
-        #region Internal Methods
-
-        internal static void Start(string[] args)
-        {
-            Console.WriteLine("Started!");
-
-            // do stuff here
-        }
-
-        internal static void Stop()
-        {
-            Console.WriteLine("Stopped.");
-        }
-
-        #endregion Internal Methods
-
-        #region Private Methods
-
+        /// <summary>
+        ///     The main entry point for the application.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
         private static void Main(string[] args)
         {
             if (args.Length > 0)
@@ -36,18 +25,40 @@ namespace ConsoleService.NET
                     Utility.ModifyService("uninstall");
                 }
             }
-
-            if (Utility.IsWindows() && (!Environment.UserInteractive))
-            {
-                ServiceBase.Run(new Service());
-            }
             else
             {
-                Start(args);
-                Stop();
+                // if the platform is Windows and Environment.UserInteractive is false,
+                // the application is being started as a service.
+                if (Utility.IsWindows() && (!Environment.UserInteractive))
+                {
+                    ServiceBase.Run(new Service());
+                }
+                else
+                {
+                    // the application is being run under user mode.
+                    Start(args);
+                    Stop();
+                }
             }
         }
 
-        #endregion Private Methods
+        /// <summary>
+        ///     Contains the application's startup logic.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
+        internal static void Start(string[] args)
+        {
+            Console.WriteLine("Started!");
+
+            // application logic here
+        }
+
+        /// <summary>
+        ///     Contains the application's shutdown logic.
+        /// </summary>
+        internal static void Stop()
+        {
+            Console.WriteLine("Stopped.");
+        }
     }
 }

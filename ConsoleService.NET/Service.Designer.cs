@@ -1,6 +1,6 @@
 ﻿namespace ConsoleService.NET
 {
-    partial class ConsoleService
+    partial class Service
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             // 
-            // ConsoleService
+            // Service
             // 
-            this.ServiceName = "ConsoleService.NET";
+            this.ServiceName = "ConsoleService";
 
         }
 

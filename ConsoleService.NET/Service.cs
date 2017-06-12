@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace ConsoleService.NET
 {
-    partial class ConsoleService : ServiceBase
+    partial class Service : ServiceBase
     {
         #region Public Constructors
 
-        public ConsoleService()
+        public Service()
         {
             InitializeComponent();
         }

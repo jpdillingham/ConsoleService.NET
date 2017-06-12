@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ServiceProcess;
 
 namespace ConsoleService.NET
 {
@@ -13,6 +10,8 @@ namespace ConsoleService.NET
         internal static void Start(string[] args)
         {
             Console.WriteLine("Started!");
+
+            // do stuff here
         }
 
         internal static void Stop()
@@ -24,53 +23,29 @@ namespace ConsoleService.NET
 
         #region Private Methods
 
-        /// <summary>
-        ///     Installs or uninstalls the application as a Windows Service, depending on the provided action.
-        /// </summary>
-        /// <param name="action">The action to perform (uninstall or install).</param>
-        /// <returns>True if the installation/uninstallation succeeded, false otherwise.</returns>
-        [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
-        public static bool ModifyService(string action)
-        {
-            try
-            {
-                if (action == "uninstall")
-                {
-                    System.Configuration.Install.ManagedInstallerClass.InstallHelper(new string[] { "/u", System.Reflection.Assembly.GetExecutingAssembly().Location });
-                }
-                else
-                {
-                    System.Configuration.Install.ManagedInstallerClass.InstallHelper(new string[] { System.Reflection.Assembly.GetExecutingAssembly().Location });
-                }
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         private static void Main(string[] args)
         {
             if (args.Length > 0)
             {
                 if (args[0] == "install")
                 {
-                    ModifyService("install");
+                    Utility.ModifyService("install");
                 }
                 else if (args[0] == "uninstall")
                 {
-                    ModifyService("uninstall");
+                    Utility.ModifyService("uninstall");
                 }
             }
 
-            Start(args);
-
-            Console.WriteLine("Press any key to stop...");
-            Console.ReadKey();
-
-            Stop();
+            if (Utility.IsWindows() && (!Environment.UserInteractive))
+            {
+                ServiceBase.Run(new Service());
+            }
+            else
+            {
+                Start(args);
+                Stop();
+            }
         }
 
         #endregion Private Methods

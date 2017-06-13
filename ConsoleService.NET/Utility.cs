@@ -23,17 +23,19 @@ namespace ConsoleService.NET
         /// <param name="action">If 'uninstall', uninstalls the service.  Any other string installs the service.</param>
         internal static void ModifyService(string action)
         {
-            try
+            string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string[] args;
+
+            if (action == "uninstall")
             {
-                if (action == "install")
-                {
-                    System.Configuration.Install.ManagedInstallerClass.InstallHelper(new string[] { "/u", System.Reflection.Assembly.GetExecutingAssembly().Location });
-                }
-                else
-                {
-                    System.Configuration.Install.ManagedInstallerClass.InstallHelper(new string[] { System.Reflection.Assembly.GetExecutingAssembly().Location });
-                }
+                args = new string[] { "/u", path };
             }
+            else
+            {
+                args = new string[] { path };
+            }
+
+            System.Configuration.Install.ManagedInstallerClass.InstallHelper(args);
         }
     }
 }

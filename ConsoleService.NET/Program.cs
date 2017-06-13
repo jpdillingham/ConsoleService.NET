@@ -16,11 +16,11 @@ namespace ConsoleService.NET
         {
             if (args.Length > 0)
             {
-                if (args[0] == "install")
+                if (args[0] == "--install")
                 {
                     Utility.ModifyService("install");
                 }
-                else if (args[0] == "uninstall")
+                else if (args[0] == "--uninstall")
                 {
                     Utility.ModifyService("uninstall");
                 }
